@@ -1,4 +1,4 @@
-package com.moral;
+package com.moral.server;
 
 import com.moral.util.NetUtils;
 import io.netty.buffer.ByteBuf;
@@ -17,11 +17,6 @@ public class MoralDecoder extends ByteToMessageDecoder {
 
         //复制内容到字节数组b
         buffer.readBytes(b);
-
-//        //字节数组转字符串
-//        String str = new String(b);
-//
-//        System.out.println(str);
 
         out.add(NetUtils.bytesToHex(b));
     }
