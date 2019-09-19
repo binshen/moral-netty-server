@@ -1,5 +1,8 @@
 package com.moral.client;
 
+import com.moral.util.NetUtils;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -10,12 +13,18 @@ public class MoralClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         //服务端的远程地址
-        System.out.println(ctx.channel().remoteAddress());
-        System.out.println("client output: " + msg);
+        System.out.println(ctx.channel().remoteAddress() + ", " + msg);
 
-
-        ctx.writeAndFlush("from client: "+ LocalDateTime.now());
+//        String message = "5A0010010B040ECF23B87FA2";
+//        ByteBuf buffer = Unpooled.buffer(message.length());
+//        buffer.writeBytes(NetUtils.hexToByteArray(message));
+//        ctx.writeAndFlush(buffer);
     }
+
+//    @Override
+//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//        super.channelRead(ctx, msg);
+//    }
 
     /**
      * 当服务器端与客户端进行建立连接的时候会触发，如果没有触发读写操作，则客户端和客户端之间不会进行数据通信，也就是channelRead0不会执行，
@@ -24,7 +33,10 @@ public class MoralClientHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush("来自与客户端的问题!");
+        String message = "5A0010010B040ECF23B87FA2";
+        ByteBuf buffer = Unpooled.buffer(message.length());
+        buffer.writeBytes(NetUtils.hexToByteArray(message));
+        ctx.writeAndFlush(buffer);
     }
 
     @Override

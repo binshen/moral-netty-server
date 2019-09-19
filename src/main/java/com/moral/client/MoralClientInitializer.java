@@ -14,7 +14,7 @@ public class MoralClientInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
 
-//        pipeline.addLast(new MoralTimeoutHandler(5, 10, 20));
+        pipeline.addLast(new MoralTimeoutHandler(10, 10, 20));
 
         // 粘包/拆包: 固定长度
         pipeline.addLast(new FixedLengthFrameDecoder(12));
@@ -23,6 +23,6 @@ public class MoralClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new MoralDecoder());
 
         // 自定义的处理器
-        pipeline.addLast(new MoralServerHandler());
+        pipeline.addLast(new MoralClientHandler());
     }
 }

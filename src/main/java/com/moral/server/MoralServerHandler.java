@@ -1,5 +1,6 @@
 package com.moral.server;
 
+import com.moral.util.NetUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,10 +31,9 @@ public class MoralServerHandler extends SimpleChannelInboundHandler<String> {
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         super.channelReadComplete(ctx);
 
-        // 给客户端回传数据
-        String message = "5A0010010B040ECF23B87FA2";
+        String message = "5A0010010B040ECF23B87FA2"; //服务端反馈指令-给客户端回传数据
         ByteBuf buffer = Unpooled.buffer(message.length());
-        buffer.writeBytes(message.getBytes());
+        buffer.writeBytes(NetUtils.hexToByteArray(message));
         ctx.writeAndFlush(buffer);
     }
 
@@ -49,9 +49,9 @@ public class MoralServerHandler extends SimpleChannelInboundHandler<String> {
         System.out.println("......心跳超时......");
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
-            if (event.state().equals(IdleState.READER_IDLE))
+            if (event.state().equals(IdleState.READER_IDLE)) {
                 ctx.close();
-            //标志该链接已经close 了 
+            }
         }
     }
 }

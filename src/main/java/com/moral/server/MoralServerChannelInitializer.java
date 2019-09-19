@@ -11,7 +11,7 @@ public class MoralServerChannelInitializer extends ChannelInitializer<SocketChan
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
 
-        pipeline.addLast(new MoralTimeoutHandler(5, 10, 20));
+        pipeline.addLast(new MoralTimeoutHandler(10, 10, 20));
         pipeline.addLast(new ModelIdleStateTrigger());
 
         // 粘包/拆包: 固定长度
